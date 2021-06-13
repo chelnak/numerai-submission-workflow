@@ -11,7 +11,7 @@ on:
     paths:
       - submit.py
       - lib/**
-      - DockerFile
+      - Dockerfile
       - requirements.txt
 
 env:
