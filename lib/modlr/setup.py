@@ -5,7 +5,7 @@ from setuptools import setup
 PRODUCT_NAME = 'modlr'
 DEPENDENCIES = [
     'azure-storage-blob==12.8.1',
-    'azure-identity==1.4.1'
+    'azure-identity==1.4.1',
     'numerapi==2.4.0',
     'numpy==1.19.5',
     'pandas==1.2.4',
