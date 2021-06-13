@@ -40,7 +40,7 @@ jobs:
               --assign-identity \
               --scope ${{ env.scope }} \
               --role 'Storage Blob Data Owner' \
-              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.MODEL_ID }} STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
+              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.model_id }} STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
               --secure-environment-variables NUMERAI_PUBLIC_ID=${{ env.NUMERAI_PUBLIC_ID }} NUMERAI_SECRET_KEY=${{ env.NUMERAI_SECRET_KEY }}
           env:
             NUMERAI_PUBLIC_ID: ${{ secrets.NUMERAI_PUBLIC_ID }}
@@ -83,7 +83,7 @@ jobs:
               --assign-identity \
               --scope ${{ env.scope }} \
               --role 'Storage Blob Data Owner' \
-              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.MODEL_ID }} NEUTRALIZE=0.3 STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
+              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.model_id }} NEUTRALIZE=0.3 STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
               --secure-environment-variables NUMERAI_PUBLIC_ID=${{ env.NUMERAI_PUBLIC_ID }} NUMERAI_SECRET_KEY=${{ env.NUMERAI_SECRET_KEY }}
           env:
             NUMERAI_PUBLIC_ID: ${{ secrets.NUMERAI_PUBLIC_ID }}
@@ -126,7 +126,7 @@ jobs:
               --assign-identity \
               --scope ${{ env.scope }} \
               --role 'Storage Blob Data Owner' \
-              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.MODEL_ID }} NEUTRALIZE=0.2 STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
+              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.model_id }} NEUTRALIZE=0.2 STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
               --secure-environment-variables NUMERAI_PUBLIC_ID=${{ env.NUMERAI_PUBLIC_ID }} NUMERAI_SECRET_KEY=${{ env.NUMERAI_SECRET_KEY }}
           env:
             NUMERAI_PUBLIC_ID: ${{ secrets.NUMERAI_PUBLIC_ID }}
@@ -169,7 +169,7 @@ jobs:
               --assign-identity \
               --scope ${{ env.scope }} \
               --role 'Storage Blob Data Owner' \
-              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.MODEL_ID }} NEUTRALIZE=0.3 STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
+              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.model_id }} NEUTRALIZE=0.3 STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
               --secure-environment-variables NUMERAI_PUBLIC_ID=${{ env.NUMERAI_PUBLIC_ID }} NUMERAI_SECRET_KEY=${{ env.NUMERAI_SECRET_KEY }}
           env:
             NUMERAI_PUBLIC_ID: ${{ secrets.NUMERAI_PUBLIC_ID }}
@@ -212,7 +212,7 @@ jobs:
               --assign-identity \
               --scope ${{ env.scope }} \
               --role 'Storage Blob Data Owner' \
-              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.MODEL_ID }} NEUTRALIZE=0.45 STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
+              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.model_id }} NEUTRALIZE=0.45 STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
               --secure-environment-variables NUMERAI_PUBLIC_ID=${{ env.NUMERAI_PUBLIC_ID }} NUMERAI_SECRET_KEY=${{ env.NUMERAI_SECRET_KEY }}
           env:
             NUMERAI_PUBLIC_ID: ${{ secrets.NUMERAI_PUBLIC_ID }}
