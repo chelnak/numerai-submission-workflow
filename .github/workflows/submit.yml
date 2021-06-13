@@ -53,7 +53,7 @@ jobs:
         - name: Clean up
           if: ${{ always() }}
           run: |
-            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }}
+            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }} --yes
 
     cb1:
         env:
@@ -96,7 +96,7 @@ jobs:
         - name: Clean up
           if: ${{ always() }}
           run: |
-            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }}            
+            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }} --yes
 
     rf1:
         env:
@@ -139,7 +139,7 @@ jobs:
         - name: Clean up
           if: ${{ always() }}
           run: |
-            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }}            
+            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }} --yes
 
     xgb1_fn:
         env:
@@ -182,7 +182,7 @@ jobs:
         - name: Clean up
           if: ${{ always() }}
           run: |
-            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-fn-run-${{ github.run_id }}
+            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-fn-run-${{ github.run_id }} --yes
 
     lgbm1:
         env:
@@ -225,4 +225,4 @@ jobs:
         - name: Clean up
           if: ${{ always() }}
           run: |
-            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }}            
+            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }} --yes
