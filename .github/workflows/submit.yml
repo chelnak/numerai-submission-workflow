@@ -50,7 +50,7 @@ jobs:
             az container logs --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }} --follow
 
         - name: Clean up
-          continue-on-error: true
+          if: ${{ always() }}
           run: |
             az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }}
 
@@ -92,7 +92,7 @@ jobs:
             az container logs --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }} --follow
 
         - name: Clean up
-          continue-on-error: true
+          if: ${{ always() }}
           run: |
             az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }}            
 
@@ -134,7 +134,7 @@ jobs:
             az container logs --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }} --follow
 
         - name: Clean up
-          continue-on-error: true
+          if: ${{ always() }}
           run: |
             az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }}            
 
@@ -176,7 +176,7 @@ jobs:
             az container logs --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-fn-run-${{ github.run_id }} --follow
             
         - name: Clean up
-          continue-on-error: true
+          if: ${{ always() }}
           run: |
             az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-fn-run-${{ github.run_id }}
 
@@ -218,6 +218,6 @@ jobs:
             az container logs --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }} --follow
 
         - name: Clean up
-          continue-on-error: true
+          if: ${{ always() }}
           run: |
             az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }}            
