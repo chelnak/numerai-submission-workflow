@@ -1,0 +1,223 @@
+name: Submit predictions
+
+on:
+  schedule:
+    - cron: '00 20 * * 6'
+  workflow_dispatch:
+
+env:
+  resource_group: cg-dev-numerai-rg
+  scope: /subscriptions/7db81549-e1e7-467b-9c24-04b81630eeaa/resourceGroups/cg-dev-numerai-rg/providers/Microsoft.Storage/storageAccounts/cgdevnumeraistr
+  image: ghcr.io/chelnak/numerai-submission:latest
+  storage_account_name: cgdevnumeraistr
+
+jobs:
+    xgb1:
+        env:
+          model_name: xgb1
+          model_id: e8d1f329-6ee2-40ab-a05f-c18246dcb65e
+        runs-on: ubuntu-latest
+        steps:
+        - name: 'Checkout GitHub Action'
+          uses: actions/checkout@master
+          
+        - name: 'Login via Azure CLI'
+          uses: azure/login@v1
+          with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+        - name: Create container  
+          run: |
+            az container create \
+              --resource-group ${{ env.resource_group }} \
+              --name ${{ env.model_name }}-run-${{ github.run_id }}  \
+              --image ${{ env.image }} \
+              --registry-login-server ghcr.io \
+              --registry-username ${{ github.actor }} \
+              --registry-password ${{ secrets.GITHUB_TOKEN }} \
+              --memory 16 \
+              --restart-policy Never \
+              --assign-identity \
+              --scope ${{ env.scope }} \
+              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.MODEL_ID }} STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
+              --secure-environment-variables NUMERAI_PUBLIC_ID=${{ env.NUMERAI_PUBLIC_ID }} NUMERAI_SECRET_KEY=${{ env.NUMERAI_SECRET_KEY }}
+          env:
+            NUMERAI_PUBLIC_ID: ${{ secrets.NUMERAI_PUBLIC_ID }}
+            NUMERAI_SECRET_KEY: ${{ secrets.NUMERAI_SECRET_KEY }}
+
+        - name: Tail logs
+          run: |
+            az container logs --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }} --follow
+
+        - name: Clean up
+          continue-on-error: true
+          run: |
+            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }}
+
+    cb1:
+        env:
+          model_name: cb1
+          model_id: 3076d76d-59ed-4862-9164-8f06d0c7f908
+        runs-on: ubuntu-latest
+        steps:
+        - name: 'Checkout GitHub Action'
+          uses: actions/checkout@master
+          
+        - name: 'Login via Azure CLI'
+          uses: azure/login@v1
+          with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+        - name: Create container  
+          run: |
+            az container create \
+              --resource-group ${{ env.resource_group }} \
+              --name ${{ env.model_name }}-run-${{ github.run_id }}  \
+              --image ${{ env.image }} \
+              --registry-login-server ghcr.io \
+              --registry-username ${{ github.actor }} \
+              --registry-password ${{ secrets.GITHUB_TOKEN }} \
+              --memory 16 \
+              --restart-policy Never \
+              --assign-identity \
+              --scope ${{ env.scope }} \
+              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.MODEL_ID }} NEUTRALIZE=0.3 STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
+              --secure-environment-variables NUMERAI_PUBLIC_ID=${{ env.NUMERAI_PUBLIC_ID }} NUMERAI_SECRET_KEY=${{ env.NUMERAI_SECRET_KEY }}
+          env:
+            NUMERAI_PUBLIC_ID: ${{ secrets.NUMERAI_PUBLIC_ID }}
+            NUMERAI_SECRET_KEY: ${{ secrets.NUMERAI_SECRET_KEY }}
+
+        - name: Tail logs
+          run: |
+            az container logs --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }} --follow
+
+        - name: Clean up
+          continue-on-error: true
+          run: |
+            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }}            
+
+    rf1:
+        env:
+          model_name: rf1
+          model_id: 0e392128-2f87-4820-be7a-87fc957212c2
+        runs-on: ubuntu-latest
+        steps:
+        - name: 'Checkout GitHub Action'
+          uses: actions/checkout@master
+          
+        - name: 'Login via Azure CLI'
+          uses: azure/login@v1
+          with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+        - name: Create container  
+          run: |
+            az container create \
+              --resource-group ${{ env.resource_group }} \
+              --name ${{ env.model_name }}-run-${{ github.run_id }}  \
+              --image ${{ env.image }} \
+              --registry-login-server ghcr.io \
+              --registry-username ${{ github.actor }} \
+              --registry-password ${{ secrets.GITHUB_TOKEN }} \
+              --memory 16 \
+              --restart-policy Never \
+              --assign-identity \
+              --scope ${{ env.scope }} \
+              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.MODEL_ID }} NEUTRALIZE=0.2 STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
+              --secure-environment-variables NUMERAI_PUBLIC_ID=${{ env.NUMERAI_PUBLIC_ID }} NUMERAI_SECRET_KEY=${{ env.NUMERAI_SECRET_KEY }}
+          env:
+            NUMERAI_PUBLIC_ID: ${{ secrets.NUMERAI_PUBLIC_ID }}
+            NUMERAI_SECRET_KEY: ${{ secrets.NUMERAI_SECRET_KEY }}
+
+        - name: Tail logs
+          run: |
+            az container logs --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }} --follow
+
+        - name: Clean up
+          continue-on-error: true
+          run: |
+            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }}            
+
+    xgb1_fn:
+        env:
+          model_name: xgb1
+          model_id: 0a8dfce7-79b4-4ee0-ae22-ebc843cb824e
+        runs-on: ubuntu-latest
+        steps:
+        - name: 'Checkout GitHub Action'
+          uses: actions/checkout@master
+          
+        - name: 'Login via Azure CLI'
+          uses: azure/login@v1
+          with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+        - name: Create container  
+          run: |
+            az container create \
+              --resource-group ${{ env.resource_group }} \
+              --name ${{ env.model_name }}-fn-run-${{ github.run_id }}  \
+              --image ${{ env.image }} \
+              --registry-login-server ghcr.io \
+              --registry-username ${{ github.actor }} \
+              --registry-password ${{ secrets.GITHUB_TOKEN }} \
+              --memory 16 \
+              --restart-policy Never \
+              --assign-identity \
+              --scope ${{ env.scope }} \
+              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.MODEL_ID }} NEUTRALIZE=0.3 STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
+              --secure-environment-variables NUMERAI_PUBLIC_ID=${{ env.NUMERAI_PUBLIC_ID }} NUMERAI_SECRET_KEY=${{ env.NUMERAI_SECRET_KEY }}
+          env:
+            NUMERAI_PUBLIC_ID: ${{ secrets.NUMERAI_PUBLIC_ID }}
+            NUMERAI_SECRET_KEY: ${{ secrets.NUMERAI_SECRET_KEY }}
+
+        - name: Tail logs
+          run: |
+            az container logs --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-fn-run-${{ github.run_id }} --follow
+            
+        - name: Clean up
+          continue-on-error: true
+          run: |
+            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-fn-run-${{ github.run_id }}
+
+    lgbm1:
+        env:
+          model_name: lgbm1
+          model_id: 251821ad-7762-416d-8cff-6ca7fb8652bc
+        runs-on: ubuntu-latest
+        steps:
+        - name: 'Checkout GitHub Action'
+          uses: actions/checkout@master
+          
+        - name: 'Login via Azure CLI'
+          uses: azure/login@v1
+          with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+        - name: Create container  
+          run: |
+            az container create \
+              --resource-group ${{ env.resource_group }} \
+              --name ${{ env.model_name }}-run-${{ github.run_id }}  \
+              --image ${{ env.image }} \
+              --registry-login-server ghcr.io \
+              --registry-username ${{ github.actor }} \
+              --registry-password ${{ secrets.GITHUB_TOKEN }} \
+              --memory 16 \
+              --restart-policy Never \
+              --assign-identity \
+              --scope ${{ env.scope }} \
+              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.MODEL_ID }} NEUTRALIZE=0.45 STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
+              --secure-environment-variables NUMERAI_PUBLIC_ID=${{ env.NUMERAI_PUBLIC_ID }} NUMERAI_SECRET_KEY=${{ env.NUMERAI_SECRET_KEY }}
+          env:
+            NUMERAI_PUBLIC_ID: ${{ secrets.NUMERAI_PUBLIC_ID }}
+            NUMERAI_SECRET_KEY: ${{ secrets.NUMERAI_SECRET_KEY }}
+
+        - name: Tail logs
+          run: |
+            az container logs --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }} --follow
+
+        - name: Clean up
+          continue-on-error: true
+          run: |
+            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }}            

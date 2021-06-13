@@ -1,0 +1,13 @@
+*.pyc
+__pycache__
+data/
+catboost_info/
+.DS_Store
+outputs/
+testing/
+*.egg-info/
+archive/
+examples/
+venv/
+tpot/
+config.py
