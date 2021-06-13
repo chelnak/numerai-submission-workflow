@@ -12,6 +12,7 @@ on:
       - submit.py
       - lib/**
       - DockerFile
+      - requirements.txt
 
 env:
   IMAGE_NAME: numerai-submission
