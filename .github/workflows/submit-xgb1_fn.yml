@@ -1,0 +1,56 @@
+name: Submit XGB1_FN predictions
+
+on:
+  schedule:
+    - cron: '00 20 * * 6'
+  workflow_dispatch:
+
+env:
+  resource_group: cg-dev-numerai-rg
+  scope: /subscriptions/7db81549-e1e7-467b-9c24-04b81630eeaa/resourceGroups/cg-dev-numerai-rg/providers/Microsoft.Storage/storageAccounts/cgdevnumeraistr
+  image: ghcr.io/chelnak/numerai-submission:latest
+  storage_account_name: cgdevnumeraistr
+
+jobs:
+    xgb1_fn:
+        env:
+          model_name: xgb1
+          model_id: 0a8dfce7-79b4-4ee0-ae22-ebc843cb824e
+        runs-on: ubuntu-latest
+        steps:
+        - name: 'Checkout GitHub Action'
+          uses: actions/checkout@master
+          
+        - name: 'Login via Azure CLI'
+          uses: azure/login@v1
+          with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+        - name: Create container  
+          run: |
+            az container create \
+              --resource-group ${{ env.resource_group }} \
+              --name ${{ env.model_name }}-fn-run-${{ github.run_id }}  \
+              --image ${{ env.image }} \
+              --registry-login-server ghcr.io \
+              --registry-username ${{ github.actor }} \
+              --registry-password ${{ secrets.GITHUB_TOKEN }} \
+              --memory 16 \
+              --restart-policy Never \
+              --assign-identity \
+              --scope ${{ env.scope }} \
+              --role 'Storage Blob Data Owner' \
+              --environment-variables MODEL_NAME=${{ env.model_name }} MODEL_ID=${{ env.model_id }} NEUTRALIZE=0.3 STORAGE_ACCOUNT_NAME=${{ env.storage_account_name }} \
+              --secure-environment-variables NUMERAI_PUBLIC_ID=${{ env.NUMERAI_PUBLIC_ID }} NUMERAI_SECRET_KEY=${{ env.NUMERAI_SECRET_KEY }}
+          env:
+            NUMERAI_PUBLIC_ID: ${{ secrets.NUMERAI_PUBLIC_ID }}
+            NUMERAI_SECRET_KEY: ${{ secrets.NUMERAI_SECRET_KEY }}
+
+        - name: Tail logs
+          run: |
+            az container logs --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-fn-run-${{ github.run_id }} --follow
+            
+        - name: Clean up
+          if: ${{ always() }}
+          run: |
+            az container delete --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-fn-run-${{ github.run_id }} --yes
