@@ -50,6 +50,14 @@ jobs:
           run: |
             az container logs --resource-group ${{ env.resource_group }} --name ${{ env.model_name }}-run-${{ github.run_id }} --follow
 
+        - name: Test 
+          run: |
+            Result=$(az container show --resource-group ${{ env.resource_group }} --name ${{ env.model_name }} --query "instanceView.state" --output tsv)
+            
+            if $Result | grep -q 'Failed'; then
+              exit 1
+            fi
+
         - name: Clean up
           if: ${{ always() }}
           run: |
